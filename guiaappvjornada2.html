@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <title>Guía de Usuario - V Jornada Automoción Monlau</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        monlau: {
+                            blue: '#00407d',
+                            yellow: '#fecb00',
+                            dark: '#0f172a',
+                            navy: '#002a52',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Lato', 'sans-serif'],
+                        display: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        scroll-behavior: smooth;
+        
+        /* Barra de desplazamiento discreta */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; border: 2px solid #0f172a; }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(0, 64, 125, 0.95) 0%, rgba(15, 23, 42, 0.9) 100%), url('https://i.imgur.com/oEdwCgh.png');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        /* Estilos del Stack de Imágenes Interactiva */
+        .img-stack {
+            position: relative;
+            height: 450px;
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .img-stack img {
+            position: absolute;
+            border-radius: 1.5rem;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            height: 90%;
+            width: auto;
+            left: 50%;
+            top: 50%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border: 3px solid rgba(255,255,255,0.1);
+        }
+
+        /* Posiciones Base para el carrusel interactivo */
+        .img-hidden { transform: translate(-50%, -50%) scale(0.5); opacity: 0; z-index: 0; pointer-events: none; }
+        .img-left-far { transform: translate(-110%, -50%) rotate(-12deg); z-index: 5; opacity: 0.4; }
+        .img-left { transform: translate(-85%, -50%) rotate(-8deg); z-index: 10; opacity: 0.7; }
+        .img-center { transform: translate(-50%, -50%) scale(1.05); z-index: 30; opacity: 1; }
+        .img-right { transform: translate(-15%, -50%) rotate(8deg); z-index: 20; opacity: 0.8; }
+        .img-right-far { transform: translate(10%, -50%) rotate(12deg); z-index: 5; opacity: 0.4; }
+
+        /* Estado de Foco */
+        .img-focus {
+            transform: translate(-50%, -50%) scale(1.15) rotate(0deg) !important;
+            z-index: 50 !important;
+            opacity: 1 !important;
+            border-color: #fecb00 !important;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        }
+
+        .qr-card:hover {
+            transform: translateY(-5px);
+            border-color: #fecb00;
+        }
+
+        /* Glassmorphism para el AppBar superior */
+        .sticky-appbar {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-monlau-dark text-slate-200 antialiased font-sans">
+
+    <!-- TOPBAR / UPBAR BLOQUEADA CON TRANSPARENCIA -->
+    <nav class="fixed top-0 left-0 w-full z-[1000] sticky-appbar py-3 px-4 md:px-10">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2 md:gap-0">
+            <div class="flex items-center gap-3">
+                <span class="text-monlau-yellow font-black tracking-tighter text-sm md:text-base">V JORNADA DE LA AUTOMOCIÓN</span>
+                <span class="hidden md:inline text-white/30">|</span>
+                <span class="text-white/80 font-medium text-[10px] md:text-sm uppercase tracking-widest">Miércoles 3 de Junio 2026</span>
+            </div>
+            <div class="flex items-center gap-6">
+                <!-- Enlace de Ubicación Seleccionable -->
+                <a href="https://www.google.com/maps/search/Nürburgreen+Indoor+-+Karting+Electric" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-white/90 text-[10px] md:text-xs hover:text-monlau-yellow transition-all group">
+                    <i class="fa-solid fa-location-dot text-monlau-yellow text-xs md:text-sm group-hover:scale-125 transition-transform"></i>
+                    <span class="font-bold tracking-wide uppercase group-hover:underline underline-offset-4">NÜRBURGREEN INDOOR</span>
+                </a>
+                <!-- Info de Hora -->
+                <div class="flex items-center gap-2 text-white/90 text-[10px] md:text-xs">
+                    <i class="fa-solid fa-clock text-monlau-yellow text-xs md:text-sm"></i>
+                    <span class="font-bold tracking-wide uppercase">DE 9 A 14 HORAS</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- SECCIÓN HERO -->
+    <header class="hero-gradient min-h-screen flex flex-col items-center justify-center text-center px-4 relative overflow-hidden border-b border-white/5 pt-16">
+        <div class="relative z-10 max-w-5xl mx-auto">
+            <div class="mb-10 flex justify-center">
+                <img src="https://i.imgur.com/WlCImtS.png" alt="[Logo Monlau]" class="w-48 h-48 md:w-64 md:h-64 object-contain drop-shadow-[0_10px_25px_rgba(0,0,0,0.5)]">
+            </div>
+            
+            <span class="inline-block bg-monlau-yellow text-monlau-blue px-6 py-2 rounded-full font-black text-sm md:text-lg mb-6 tracking-[0.2em] uppercase shadow-lg shadow-monlau-yellow/20">V Jornada de la Automoción 2026</span>
+            
+            <h1 class="font-display text-6xl md:text-9xl font-black text-white leading-tight mb-12 tracking-tighter uppercase">
+                GUÍA DIGITAL<br><span class="text-monlau-yellow">DEL USUARIO</span>
+            </h1>
+            
+            <a href="#login" class="inline-flex bg-monlau-blue text-white px-10 py-4 rounded-2xl font-bold text-lg hover:bg-monlau-navy transition-all gap-3 border border-white/10">
+                COMENZAR EXPLORACIÓN <i class="fa-solid fa-chevron-down self-center"></i>
+            </a>
+        </div>
+        <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-monlau-dark to-transparent"></div>
+    </header>
+
+    <!-- 1. SECCIÓN ACCESO / LOGIN (COLOR: MONLAU-DARK) -->
+    <section id="login" class="py-32 px-4 bg-monlau-dark border-b border-white/5 text-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
+                <div class="space-y-8 text-left">
+                    <h2 class="font-display text-5xl font-bold mb-6 leading-tight">Acceso Inteligente<br><span class="text-monlau-yellow italic font-light text-4xl">Autenticación Dinámica</span></h2>
+                    <p class="text-xl text-slate-400 leading-relaxed max-w-xl">
+                        Nuestra App detecta tu perfil al instante. Haz clic en las tarjetas para ver la evolución del acceso.
+                    </p>
+                    <div class="grid gap-4">
+                        <button onclick="focusAuthImage('intro')" class="bg-monlau-navy/50 p-6 rounded-2xl border border-white/5 flex items-center gap-5 hover:border-monlau-yellow transition-all text-left group">
+                            <div class="w-14 h-14 bg-monlau-blue text-monlau-yellow rounded-xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-mobile-screen"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg tracking-tight">Acceso al login</h4>
+                                <p class="text-sm text-slate-500">Pantalla de carga y bienvenida.</p>
+                            </div>
+                        </button>
+                        <button onclick="focusAuthImage('default')" class="bg-monlau-navy/50 p-6 rounded-2xl border border-white/5 flex items-center gap-5 hover:border-monlau-yellow transition-all text-left group">
+                            <div class="w-14 h-14 bg-monlau-navy rounded-xl flex items-center justify-center text-monlau-yellow text-2xl border border-white/10 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-house-user"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg tracking-tight">Login Principal</h4>
+                                <p class="text-sm text-slate-500">Selección de perfil de usuario.</p>
+                            </div>
+                        </button>
+                        <button onclick="focusAuthImage('student')" class="bg-monlau-navy/50 p-6 rounded-2xl border border-white/5 flex items-center gap-5 hover:border-monlau-yellow transition-all text-left group">
+                            <div class="w-14 h-14 bg-monlau-blue rounded-xl flex items-center justify-center text-monlau-yellow text-2xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-user-graduate"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg tracking-tight text-white">Login Monlau</h4>
+                                <p class="text-sm text-slate-500">Acceso para alumnos de Monlau.</p>
+                            </div>
+                        </button>
+                        <button onclick="focusAuthImage('corporate')" class="bg-monlau-navy/50 p-6 rounded-2xl border border-white/5 flex items-center gap-5 hover:border-monlau-yellow transition-all text-left group">
+                            <div class="w-14 h-14 bg-monlau-yellow rounded-xl flex items-center justify-center text-monlau-blue text-2xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-briefcase"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg tracking-tight text-white">Login Empresas</h4>
+                                <p class="text-sm text-slate-500">Portal para colaboradores externos.</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex justify-center items-center">
+                    <div class="img-stack" id="authStack">
+                        <img src="https://i.imgur.com/iUmjTvE.png" id="authIntro" class="img-center" alt="">
+                        <img src="https://i.imgur.com/HjgHIbT.png" id="authDefault" class="img-right" alt="">
+                        <img src="https://i.gyazo.com/7045aa5f3e4d9bca239de2c73d2592e0.png" id="authStudent" class="img-right-far" alt="">
+                        <img src="https://i.imgur.com/gsQydOZ.png" id="authCorporate" class="img-hidden" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. SECCIÓN HERRAMIENTAS GLOBALES (COLOR: MONLAU-NAVY) -->
+    <section id="general" class="py-32 px-4 bg-monlau-navy border-b border-white/5 text-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
+                <div class="flex justify-center items-center order-2 lg:order-1">
+                    <div class="img-stack" id="globalStack">
+                        <img src="https://i.imgur.com/QN6JlwH.png" id="globalFilter" class="img-left-far" alt="">
+                        <img src="https://i.imgur.com/r5KEPZl.png" id="globalQR" class="img-left" alt="">
+                        <img src="https://i.imgur.com/3dE33bG.png" id="globalVote" class="img-center" alt="">
+                        <img src="https://i.imgur.com/RRqVEk2.png" id="globalChat" class="img-right" alt="">
+                    </div>
+                </div>
+
+                <div class="space-y-8 text-left order-1 lg:order-2">
+                    <h2 class="font-display text-5xl font-bold mb-6 uppercase tracking-tight">Herramientas Globales</h2>
+                    <p class="text-xl text-slate-300 leading-relaxed max-w-xl font-light">
+                        Módulos integrados para facilitar la navegación y participación masiva durante el evento.
+                    </p>
+                    <div class="grid gap-4">
+                        <button onclick="focusGlobalImage('vote')" class="bg-monlau-dark/40 p-6 rounded-2xl border border-white/5 flex items-center gap-5 hover:border-monlau-yellow transition-all text-left group">
+                            <div class="w-14 h-14 bg-monlau-yellow text-monlau-blue rounded-xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform shadow-lg">
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white text-lg tracking-tight">Voto Universal</h4>
+                                <p class="text-sm text-slate-500">Participa en el Top 10 de proyectos.</p>
+                            </div>
+                        </button>
+                        <button onclick="focusGlobalImage('chat')" class="bg-monlau-dark/40 p-6 rounded-2xl border border-white/5 flex items-center gap-5 hover:border-monlau-yellow transition-all text-left group">
+                            <div class="w-14 h-14 bg-monlau-blue text-monlau-yellow rounded-xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform shadow-lg">
+                                <i class="fa-solid fa-comments"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white text-lg tracking-tight text-white">Interacción Ponencias</h4>
+                                <p class="text-sm text-slate-500">Chat en vivo con los expertos.</p>
+                            </div>
+                        </button>
+                        <button onclick="focusGlobalImage('qr')" class="bg-monlau-dark/40 p-6 rounded-2xl border border-white/5 flex items-center gap-5 hover:border-monlau-yellow transition-all text-left group">
+                            <div class="w-14 h-14 bg-monlau-blue text-monlau-yellow rounded-xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform shadow-lg">
+                                <i class="fa-solid fa-qrcode"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg tracking-tight text-white">Escáner QR Nativo</h4>
+                                <p class="text-sm text-slate-500">Acceso inmediato a fichas técnicas.</p>
+                            </div>
+                        </button>
+                        <button onclick="focusGlobalImage('filter')" class="bg-monlau-dark/40 p-6 rounded-2xl border border-white/5 flex items-center gap-5 hover:border-monlau-yellow transition-all text-left group">
+                            <div class="w-14 h-14 bg-monlau-navy rounded-xl flex items-center justify-center text-monlau-yellow text-2xl group-hover:scale-110 transition-transform shadow-lg border border-white/10">
+                                <i class="fa-solid fa-filter"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg tracking-tight text-white">Filtros de Proyectos</h4>
+                                <p class="text-sm text-slate-500">Búsqueda avanzada por categorías.</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SECCIÓN ALUMNOS (COLOR: MONLAU-DARK) -->
+    <section id="alumnos" class="py-32 px-4 bg-monlau-dark relative overflow-hidden border-b border-white/5 text-white">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl -mr-48 -mt-48"></div>
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-24 items-center">
+                <div class="space-y-10 order-1">
+                    <div class="inline-block px-5 py-2 bg-monlau-navy text-monlau-yellow rounded-xl font-bold tracking-widest text-sm uppercase">Perfil Estudiante</div>
+                    <h2 class="font-display text-6xl font-extrabold tracking-tighter">Impulsa tu<br><span class="text-monlau-yellow underline decoration-white/20">Visibilidad</span></h2>
+                    
+                    <div class="grid gap-4">
+                        <button onclick="focusStudentImage('start')" class="bg-monlau-navy/40 p-6 rounded-2xl border border-white/10 flex items-center gap-5 hover:border-monlau-yellow transition-all text-left group">
+                            <div class="w-14 h-14 bg-monlau-blue text-monlau-yellow rounded-xl flex items-center justify-center text-2xl shadow-inner group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-building-columns"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white text-lg tracking-tight">Dashboard empresas</h4>
+                                <p class="text-sm text-slate-300">Accede a nuestras empresas colaboradoras.</p>
+                            </div>
+                        </button>
+                        <button onclick="focusStudentImage('cv')" class="bg-monlau-navy/40 p-6 rounded-2xl border border-white/10 flex items-center gap-5 hover:border-monlau-yellow transition-all text-left group">
+                            <div class="w-14 h-14 bg-monlau-blue text-monlau-yellow rounded-xl flex items-center justify-center text-2xl shadow-inner group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-clipboard-list"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white text-lg tracking-tight">Gestión de Entrevistas</h4>
+                                <p class="text-sm text-slate-300">Reserva hora in situ o completa el formulario.</p>
+                            </div>
+                        </button>
+                        <button onclick="focusStudentImage('agenda')" class="bg-monlau-navy/40 p-6 rounded-2xl border border-white/10 flex items-center gap-5 hover:border-monlau-yellow transition-all text-left group">
+                            <div class="w-14 h-14 bg-monlau-yellow text-monlau-blue rounded-xl flex items-center justify-center text-2xl shadow-inner group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-calendar-check"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white text-lg tracking-tight">Networking y Agenda</h4>
+                                <p class="text-sm text-slate-300">Control de tus citas.</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex justify-center items-center order-2">
+                    <div class="img-stack">
+                        <img src="https://i.imgur.com/RICPryX.png" id="studentStart" class="img-center" alt="[Dashboard empresas]">
+                        <img src="https://i.imgur.com/yrgMhm9.png" id="studentCV" class="img-right" alt="[Gestión Entrevistas]">
+                        <img src="https://i.imgur.com/JqntMGm.png" id="studentAgenda" class="img-hidden" alt="[Agenda]">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. SECCIÓN EMPRESAS (COLOR: MONLAU-NAVY) -->
+    <section id="empresas" class="py-32 px-4 bg-monlau-navy border-b border-white/5 overflow-hidden text-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-24 items-center">
+                
+                <div class="flex justify-center items-center order-2 lg:order-1">
+                    <div class="img-stack" id="corpStack">
+                        <img src="https://i.imgur.com/XfBHixu.png" id="corpDash" class="img-center" alt="[Gestión Entrevistas]">
+                        <img src="https://i.imgur.com/OdcypXV.png" id="corpDetails" class="img-right" alt="[Detalles Alumno]">
+                        <img src="https://i.imgur.com/lYogkfK.png" id="corpAgenda" class="img-hidden" alt="[Favoritos]">
+                    </div>
+                </div>
+
+                <div class="space-y-10 order-1 lg:order-2 text-white text-white">
+                    <div class="inline-block px-5 py-2 bg-monlau-blue text-monlau-yellow rounded-xl font-bold tracking-widest text-sm uppercase">Portal Corporativo</div>
+                    <h2 class="font-display text-6xl font-extrabold tracking-tighter">Captación de<br><span class="text-monlau-blue">Talento</span></h2>
+                    
+                    <div class="grid gap-4">
+                        <button onclick="focusCorpImage('dashboard')" class="bg-monlau-dark/40 p-6 rounded-2xl border border-white/5 flex items-center gap-5 hover:border-monlau-yellow transition-all text-left group">
+                            <div class="w-14 h-14 bg-monlau-blue text-monlau-yellow rounded-xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-calendar-check"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg tracking-tight text-white">Gestión de Entrevistas</h4>
+                                <p class="text-sm text-slate-300">Visualiza entrevistas programadas y bloquea horas.</p>
+                            </div>
+                        </button>
+                        <button onclick="focusCorpImage('details')" class="bg-monlau-dark/40 p-6 rounded-2xl border border-white/5 flex items-center gap-5 hover:border-monlau-yellow transition-all text-left group">
+                            <div class="w-14 h-14 bg-monlau-blue text-monlau-yellow rounded-xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-address-card"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg tracking-tight text-white">Detalles del Alumno</h4>
+                                <p class="text-sm text-slate-300">Perfil completo, descarga de CV y guardado en favoritos.</p>
+                            </div>
+                        </button>
+                        <button onclick="focusCorpImage('agenda')" class="bg-monlau-dark/40 p-6 rounded-2xl border border-white/5 flex items-center gap-5 hover:border-monlau-yellow transition-all text-left group">
+                            <div class="w-14 h-14 bg-monlau-yellow text-monlau-blue rounded-xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg tracking-tight text-white">Alumnos Favoritos</h4>
+                                <p class="text-sm text-slate-300">Accede a tus candidatos destacados para el seguimiento.</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. SECCIÓN PROFESORES (COLOR: MONLAU-DARK) -->
+    <section id="profesores" class="py-32 px-4 bg-monlau-dark border-b border-white/5 overflow-hidden text-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-24 items-center">
+                
+                <div class="space-y-10">
+                    <div class="inline-block px-5 py-2 bg-monlau-navy text-monlau-yellow rounded-xl font-bold tracking-widest text-sm uppercase">Perfil Docente</div>
+                    <h2 class="font-display text-6xl font-extrabold tracking-tighter">Control y<br><span class="text-monlau-yellow underline decoration-white/20">Moderación</span></h2>
+                    
+                    <div class="grid gap-4">
+                        <button onclick="focusTeacherImage('moderation')" class="bg-monlau-navy/40 p-6 rounded-2xl border border-white/10 flex items-center gap-5 hover:border-monlau-yellow transition-all text-left group">
+                            <div class="w-14 h-14 bg-monlau-blue text-monlau-yellow rounded-xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white text-lg tracking-tight">Moderación</h4>
+                                <p class="text-sm text-slate-300">Control total del chat público en tiempo real.</p>
+                            </div>
+                        </button>
+                        <button onclick="focusTeacherImage('evaluation')" class="bg-monlau-navy/40 p-6 rounded-2xl border border-white/10 flex items-center gap-5 hover:border-monlau-yellow transition-all text-left group">
+                            <div class="w-14 h-14 bg-monlau-blue text-monlau-yellow rounded-xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white text-lg tracking-tight">Evaluación</h4>
+                                <p class="text-sm text-slate-300">Conexión integrada con Moodle.</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex justify-center items-center">
+                    <div class="img-stack" id="teacherStack">
+                        <img src="https://i.imgur.com/C7mivlW.png" id="teacherModeration" class="img-center" alt="[Moderación]">
+                        <img src="https://i.imgur.com/Ko8gMv2.png" id="teacherEvaluation" class="img-right" alt="[Evaluación]">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. SECCIÓN DESCARGA (COLOR: MONLAU-DARK) -->
+    <section id="download" class="py-32 px-4 bg-monlau-dark text-center text-white">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="font-display text-5xl font-black mb-6 uppercase tracking-tight">Lleva la Jornada en tu Bolsillo</h2>
+            <p class="text-xl text-slate-400 mb-20 max-w-2xl mx-auto font-light">Escanea el código correspondiente a tu dispositivo para acceder a todas las funcionalidades exclusivas.</p>
+            
+            <div class="grid md:grid-cols-2 gap-16">
+                <div class="flex flex-col items-center group">
+                    <div class="mb-8 flex items-center gap-4 text-white hover:text-monlau-yellow transition-colors cursor-pointer">
+                        <i class="fa-brands fa-google-play text-6xl"></i>
+                        <div class="text-left leading-none">
+                            <span class="text-xs uppercase font-bold tracking-widest opacity-60">Disponible en</span>
+                            <span class="block text-2xl font-black uppercase tracking-tighter">Google Play</span>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-[2.5rem] shadow-2xl border-4 border-white/10 group-hover:border-monlau-yellow transition-all qr-card">
+                        <img src="https://i.imgur.com/RJgrr7H.png" alt="[QR Google Play]" class="w-48 h-48 md:w-56 md:h-56 object-contain">
+                    </div>
+                    <p class="mt-8 text-monlau-yellow font-bold uppercase tracking-widest text-sm italic">Acceso Android</p>
+                </div>
+
+                <div class="flex flex-col items-center group">
+                    <div class="mb-8 flex items-center gap-4 text-white hover:text-monlau-yellow transition-colors cursor-pointer">
+                        <i class="fa-brands fa-apple text-6xl"></i>
+                        <div class="text-left leading-none">
+                            <span class="text-xs uppercase font-bold tracking-widest opacity-60">Consíguelo en</span>
+                            <span class="block text-2xl font-black uppercase tracking-tighter">App Store</span>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-[2.5rem] shadow-2xl border-4 border-white/10 group-hover:border-monlau-yellow transition-all qr-card">
+                        <img src="https://i.imgur.com/YIpvd45.png" alt="[QR App Store]" class="w-48 h-48 md:w-56 md:h-56 object-contain">
+                    </div>
+                    <p class="mt-8 text-monlau-yellow font-bold uppercase tracking-widest text-sm italic">Acceso iOS</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer - ESPACIADO REDUCIDO -->
+    <footer class="bg-slate-950 text-white py-12 px-4 border-t border-white/5 text-center">
+        <div class="max-w-7xl mx-auto">
+            <img src="https://i.imgur.com/WlCImtS.png" alt="Logo Monlau" class="h-16 grayscale opacity-30 mx-auto mb-6">
+            <h3 class="font-display text-2xl font-bold mb-4 italic text-slate-500 tracking-wide uppercase">V Jornada de Automoción - Digitalizando la Pasión</h3>
+            <div class="flex justify-center gap-10 mb-8 text-3xl opacity-40">
+                <i class="fa-brands fa-google-play hover:text-monlau-yellow transition-colors cursor-pointer"></i>
+                <i class="fa-brands fa-apple hover:text-monlau-yellow transition-colors cursor-pointer"></i>
+            </div>
+            <div class="border-t border-white/5 pt-8 text-xs text-slate-600 font-sans italic">
+                <p>Monlau Group &copy; 2026. Oriol Arcarons Roig | Martí López Beltrán</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lógica de Interactividad -->
+    <script>
+        function focusAuthImage(type) {
+            const intro = document.getElementById('authIntro');
+            const def = document.getElementById('authDefault');
+            const student = document.getElementById('authStudent');
+            const corp = document.getElementById('authCorporate');
+
+            [intro, def, student, corp].forEach(el => {
+                el.classList.remove('img-focus', 'img-center', 'img-left', 'img-right', 'img-left-far', 'img-right-far', 'img-hidden');
+                el.classList.add('img-hidden');
+            });
+
+            if (type === 'intro') {
+                intro.classList.remove('img-hidden'); intro.classList.add('img-focus');
+                def.classList.remove('img-hidden'); def.classList.add('img-right');
+                student.classList.remove('img-hidden'); student.classList.add('img-right-far');
+            } else if (type === 'default') {
+                def.classList.remove('img-hidden'); def.classList.add('img-focus');
+                intro.classList.remove('img-hidden'); intro.classList.add('img-left');
+                student.classList.remove('img-hidden'); student.classList.add('img-right');
+                corp.classList.remove('img-hidden'); corp.classList.add('img-right-far');
+            } else if (type === 'student') {
+                student.classList.remove('img-hidden'); student.classList.add('img-focus');
+                def.classList.remove('img-hidden'); def.classList.add('img-left');
+                corp.classList.remove('img-hidden'); corp.classList.add('img-right');
+                intro.classList.remove('img-hidden'); intro.classList.add('img-left-far');
+            } else if (type === 'corporate') {
+                corp.classList.remove('img-hidden'); corp.classList.add('img-focus');
+                student.classList.remove('img-hidden'); student.classList.add('img-left');
+                def.classList.remove('img-hidden'); def.classList.add('img-left-far');
+            }
+        }
+
+        function focusGlobalImage(type) {
+            const qr = document.getElementById('globalQR');
+            const vote = document.getElementById('globalVote');
+            const chat = document.getElementById('globalChat');
+            const filter = document.getElementById('globalFilter');
+
+            [qr, vote, chat, filter].forEach(el => {
+                el.classList.remove('img-focus', 'img-center', 'img-left', 'img-right', 'img-left-far', 'img-right-far', 'img-hidden');
+                el.classList.add('img-hidden');
+            });
+
+            if (type === 'vote') {
+                vote.classList.remove('img-hidden'); vote.classList.add('img-focus');
+                qr.classList.remove('img-hidden'); qr.classList.add('img-left');
+                chat.classList.remove('img-hidden'); chat.classList.add('img-right');
+                filter.classList.remove('img-hidden'); filter.classList.add('img-left-far');
+            } else if (type === 'chat') {
+                chat.classList.remove('img-hidden'); chat.classList.add('img-focus');
+                vote.classList.remove('img-hidden'); vote.classList.add('img-left');
+                filter.classList.remove('img-hidden'); filter.classList.add('img-right');
+                qr.classList.remove('img-hidden'); qr.classList.add('img-left-far');
+            } else if (type === 'qr') {
+                qr.classList.remove('img-hidden'); qr.classList.add('img-focus');
+                vote.classList.remove('img-hidden'); vote.classList.add('img-right');
+                filter.classList.remove('img-hidden'); filter.classList.add('img-left');
+                chat.classList.remove('img-hidden'); chat.classList.add('img-right-far');
+            } else if (type === 'filter') {
+                filter.classList.remove('img-hidden'); filter.classList.add('img-focus');
+                qr.classList.remove('img-hidden'); qr.classList.add('img-right');
+                chat.classList.remove('img-hidden'); chat.classList.add('img-left');
+                vote.classList.remove('img-hidden'); vote.classList.add('img-right-far');
+            }
+        }
+
+        function focusStudentImage(type) {
+            const start = document.getElementById('studentStart');
+            const cv = document.getElementById('studentCV');
+            const agenda = document.getElementById('studentAgenda');
+
+            [start, cv, agenda].forEach(img => {
+                img.classList.remove('img-focus', 'img-center', 'img-left', 'img-right', 'img-hidden');
+                img.classList.add('img-hidden');
+            });
+
+            if (type === 'cv') {
+                cv.classList.remove('img-hidden'); cv.classList.add('img-focus');
+                start.classList.remove('img-hidden'); start.classList.add('img-left');
+                agenda.classList.remove('img-hidden'); agenda.classList.add('img-right');
+            } else if (type === 'agenda') {
+                agenda.classList.remove('img-hidden'); agenda.classList.add('img-focus');
+                cv.classList.remove('img-hidden'); cv.classList.add('img-left');
+                start.classList.remove('img-hidden'); start.classList.add('img-left-far');
+            } else {
+                start.classList.remove('img-hidden'); start.classList.add('img-focus');
+                cv.classList.remove('img-hidden'); cv.classList.add('img-right');
+                agenda.classList.remove('img-hidden'); agenda.classList.add('img-right-far');
+            }
+        }
+
+        function focusCorpImage(type) {
+            const dash = document.getElementById('corpDash');
+            const agenda = document.getElementById('corpAgenda');
+            const details = document.getElementById('corpDetails');
+
+            [dash, agenda, details].forEach(img => {
+                img.classList.remove('img-focus', 'img-center', 'img-left', 'img-right', 'img-hidden', 'img-right-far', 'img-left-far');
+                img.classList.add('img-hidden');
+            });
+
+            if (type === 'details') {
+                details.classList.remove('img-hidden'); details.classList.add('img-focus');
+                dash.classList.remove('img-hidden'); dash.classList.add('img-left');
+                agenda.classList.remove('img-hidden'); agenda.classList.add('img-right');
+            } else if (type === 'agenda') {
+                agenda.classList.remove('img-hidden'); agenda.classList.add('img-focus');
+                details.classList.remove('img-hidden'); details.classList.add('img-left');
+                dash.classList.remove('img-hidden'); dash.classList.add('img-left-far');
+            } else {
+                dash.classList.remove('img-hidden'); dash.classList.add('img-focus');
+                details.classList.remove('img-hidden'); details.classList.add('img-right');
+                agenda.classList.remove('img-hidden'); agenda.classList.add('img-right-far');
+            }
+        }
+
+        function focusTeacherImage(type) {
+            const moderation = document.getElementById('teacherModeration');
+            const evaluation = document.getElementById('teacherEvaluation');
+
+            [moderation, evaluation].forEach(img => {
+                img.classList.remove('img-focus', 'img-center', 'img-left', 'img-right', 'img-hidden', 'img-right-far', 'img-left-far');
+                img.classList.add('img-hidden');
+            });
+
+            if (type === 'evaluation') {
+                evaluation.classList.remove('img-hidden'); evaluation.classList.add('img-focus');
+                moderation.classList.remove('img-hidden'); moderation.classList.add('img-left');
+            } else {
+                moderation.classList.remove('img-hidden'); moderation.classList.add('img-focus');
+                evaluation.classList.remove('img-hidden'); evaluation.classList.add('img-right');
+            }
+        }
+
+        window.onload = () => {
+            focusAuthImage('intro');
+            focusGlobalImage('vote');
+            focusStudentImage('start');
+            focusCorpImage('dashboard');
+            focusTeacherImage('moderation');
+        };
+    </script>
+</body>
+</html>
